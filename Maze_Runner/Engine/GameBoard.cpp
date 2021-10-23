@@ -6,7 +6,7 @@ GameBoard::GameBoard()
 {
 }
 
-GameBoard::GameBoard(const int& height, const int& width, const int& scaleHeight, const int& scaleWidth) {
+GameBoard::GameBoard(const int& height, const int& width, const int& scaleHeight, const int& scaleWidth, const int& walls) {
 	m_height = height;
 	m_width = width;
 	m_scaleHeight = scaleHeight;
