@@ -127,8 +127,8 @@
     <ClCompile Include="Definitions\Image\BMP.cpp" />
     <ClCompile Include="Definitions\Image\Color.cpp" />
     <ClCompile Include="Definitions\Random\Randomness.cpp" />
-    <ClCompile Include="Engine\AntVariant.cpp" />
     <ClCompile Include="Engine\Board.cpp" />
+    <ClCompile Include="Engine\PathFinder.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,8 +136,8 @@
     <ClInclude Include="Definitions\Image\BMP.h" />
     <ClInclude Include="Definitions\Image\Color.h" />
     <ClInclude Include="Definitions\Random\Randomness.h" />
-    <ClInclude Include="Engine\AntVariant.h" />
     <ClInclude Include="Engine\Board.h" />
+    <ClInclude Include="Engine\PathFinder.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="External Files\Config.txt" />
