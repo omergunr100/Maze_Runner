@@ -13,6 +13,7 @@ GameBoard::GameBoard(const int& height, const int& width, const int& scaleHeight
 	m_scaleWidth = scaleWidth;
 	m_image = 0;
 	m_turn = 0;
+	m_walls = walls;
 	std::cout << "Initialized board stage 1" << std::endl;
 	InitializeBoard();
 }
