@@ -34,6 +34,8 @@ PathFinder::PathFinder(Type type, const Vector2& loc)
 	m_steps = 0;
 	m_unique = ++unique;
 	m_surrounded = false;
+	m_last = false;
+	m_turnPlayed = 0;
 }
 
 PathFinder::PathFinder(const PathFinder& other)
@@ -44,15 +46,17 @@ PathFinder::PathFinder(const PathFinder& other)
 	m_steps = other.m_steps;
 	m_neighbors = other.m_neighbors;
 	m_surrounded = other.m_surrounded;
+	m_last = other.m_last;
+	m_turnPlayed = 0;
 }
 
-void PathFinder::Replace(const PathFinder & other)
+void PathFinder::Replace(std::shared_ptr<PathFinder> other)
 {
-	m_type = other.m_type;
-	m_loc = other.m_loc;
+	m_type = other->m_type;
 	m_unique = ++unique;
-	m_steps = other.m_steps;
-	m_surrounded = other.m_surrounded;
+	m_steps = other->m_steps + 1;
+	m_surrounded = other->m_surrounded;
+	m_turnPlayed = other->m_turnPlayed;
 }
 
 void PathFinder::SetNeighbors(const std::vector<std::shared_ptr<PathFinder>>& neighbors)
@@ -64,7 +68,7 @@ int PathFinder::CalculateSteps()
 {
 	m_steps = INT_MAX;
 	for (int i = 0; i < m_neighbors.size(); i++) {
-		if(m_neighbors[i]->m_type != Wall && m_neighbors[i]->m_unique != m_unique)
+		if(m_neighbors[i]->m_type != Wall && m_neighbors[i]->m_type != Empty && m_neighbors[i]->m_unique != m_unique)
 			m_steps = m_steps > m_neighbors[i]->m_steps + 1 ? m_neighbors[i]->m_steps + 1 : m_steps;
 	}
 	return m_steps;
@@ -76,6 +80,8 @@ std::shared_ptr<PathFinder> PathFinder::FindShortestRoute()
 	for (int i = 0; i < m_neighbors.size(); i++) {
 		if (m_neighbors[i]->m_unique == m_unique)
 			continue;
+		if (m_neighbors[i]->m_type == Start)
+			m_neighbors[i]->m_surrounded = true;
 		if (m_neighbors[i]->m_type == Trail) {
 			if (shortest == nullptr && m_neighbors[i]->m_type != Wall) {
 				shortest = m_neighbors[i];
@@ -89,9 +95,48 @@ std::shared_ptr<PathFinder> PathFinder::FindShortestRoute()
 	return shortest;
 }
 
-void PathFinder::PlayTurn()
+void PathFinder::PlayTurn(const int& turn)
 {
-	
+	if (m_turnPlayed >= turn)
+		return;
+	m_turnPlayed = turn;
+	if (m_type == Type::Runner) {
+		for (int i = 0; i < m_neighbors.size(); i++) {
+			if (m_neighbors[i]->m_unique == m_unique)
+				continue;
+			if (m_neighbors[i]->m_type == Type::Empty)
+				m_neighbors[i]->Replace(std::make_shared<PathFinder>(*this));
+		}
+		m_type = Type::Trail;
+	}
+	else if (m_type == Type::Trail) {
+		m_steps = CalculateSteps();
+	}
+}
+
+void PathFinder::IsSurrounded()
+{
+	int counter = 0;
+	for (int i = 0; i < m_neighbors.size(); i++)
+		if (m_neighbors[i]->m_type != Empty)
+			counter++;
+	m_surrounded = m_neighbors.size() == counter ? true : false;
+}
+
+void PathFinder::RecursiveLastCalculation()
+{
+	if (!m_last) {
+		CalculateSteps();
+	}
+	else {
+		return;
+	}
+	for (int i = 0; i < m_neighbors.size(); i++) {
+		if (m_neighbors[i]->m_type == Trail && m_neighbors[i]->m_unique != m_unique) {
+			m_neighbors[i]->m_last = true;
+			m_neighbors[i]->RecursiveLastCalculation();
+		}
+	}
 }
 
 Vector2::Vector2()

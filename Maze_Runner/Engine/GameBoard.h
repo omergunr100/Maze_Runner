@@ -3,12 +3,10 @@
 #include <sstream>
 #include "../Definitions/Image/BMP.h"
 
-extern std::vector<std::thread> threads(100);
-
 class GameBoard {
 public:
 	GameBoard();
-	GameBoard(const int& height, const int& width, const int& scaleHeight, const int& scaleWidth);
+	GameBoard(const int& height, const int& width, const int& scaleHeight, const int& scaleWidth, const int& walls);
 	~GameBoard();
 
 private:
@@ -17,6 +15,8 @@ private:
 	int m_scaleHeight;
 	int m_scaleWidth;
 	int m_image;
+	int m_turn;
+	int m_walls;
 	std::shared_ptr<PathFinder> m_start;
 	std::shared_ptr<PathFinder> m_end;
 	std::vector<std::vector<std::shared_ptr<PathFinder>>> m_gameBoard;

@@ -27,11 +27,13 @@ public:
 	PathFinder(Type type, const Vector2& loc);
 	PathFinder(const PathFinder& other);
 
-	void Replace(const PathFinder& other);
+	void Replace(std::shared_ptr<PathFinder> other);
 	void SetNeighbors(const std::vector<std::shared_ptr<PathFinder>>& neighbors);
 	int CalculateSteps();
 	std::shared_ptr<PathFinder> FindShortestRoute();
-	void PlayTurn();
+	void PlayTurn(const int& turn);
+	void IsSurrounded();
+	void RecursiveLastCalculation();
 
 public:
 	Type m_type;
@@ -41,4 +43,6 @@ private:
 	int m_unique;
 	int m_steps;
 	std::vector<std::shared_ptr<PathFinder>> m_neighbors;
+	bool m_last;
+	int m_turnPlayed;
 };

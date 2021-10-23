@@ -1,5 +1,7 @@
 #include "GameBoard.h"
 
+std::vector<std::thread> threads(100);
+
 GameBoard::GameBoard()
 {
 }
@@ -10,6 +12,8 @@ GameBoard::GameBoard(const int& height, const int& width, const int& scaleHeight
 	m_scaleHeight = scaleHeight;
 	m_scaleWidth = scaleWidth;
 	m_image = 0;
+	m_turn = 0;
+	std::cout << "Initialized board stage 1" << std::endl;
 	InitializeBoard();
 }
 
@@ -24,10 +28,13 @@ void GameBoard::Loop()
 		for(int r = 0; r < m_height; r++)
 			for (int c = 0; c < m_width; c++) {
 				if (m_gameBoard[r][c]->m_type == PathFinder::Runner)
-					m_gameBoard[r][c]->PlayTurn();
+					m_gameBoard[r][c]->PlayTurn(m_turn);
 			}
+		m_end->IsSurrounded();
+		m_turn++;
 	}
 	
+	m_start->RecursiveLastCalculation();
 	std::shared_ptr<PathFinder> trail = m_end->FindShortestRoute();
 	while (!m_start->m_surrounded) {
 		TakeImage();
@@ -54,6 +61,7 @@ void GameBoard::InitializeBoard() {
 		for (int c = 0; c < m_width; c++)
 			m_gameBoard[r][c] = std::make_shared<PathFinder>(PathFinder::Type::Empty, Vector2(r,c));
 	}
+	std::cout << "Placed all initial points on the board" << std::endl;
 
 	// Setting neighbors
 	int counter;
@@ -71,10 +79,12 @@ void GameBoard::InitializeBoard() {
 					}
 					counter++;
 				}
+			m_gameBoard[y][x]->SetNeighbors(neighbors);
 		}
+	std::cout << "Finished setting neighbors for all points on the board" << std::endl;
 
 	// Placing start and end points
-	std::vector<Vector2> startEnd = GetNRandomPoints(2);
+	std::vector<Vector2> startEnd = GetNRandomPoints(2+m_walls);
 	m_start = m_gameBoard[startEnd[0].m_y][startEnd[0].m_x];
 	m_start->m_type = PathFinder::Start;
 	m_end = m_gameBoard[startEnd[1].m_y][startEnd[1].m_x];
@@ -82,10 +92,17 @@ void GameBoard::InitializeBoard() {
 	// surrounding start with runners
 	for(int r = -1; r < 2; r++)
 		for (int c = -1; c < 2; c++) {
-			if (m_start->m_loc.m_y + r >= 0 && m_start->m_loc.m_y + r < m_height && m_start->m_loc.m_x + c >= 0 && m_start->m_loc.m_x + c < m_width) {
+			if (m_start->m_loc.m_y + r >= 0 && m_start->m_loc.m_y + r < m_height && m_start->m_loc.m_x + c >= 0 && m_start->m_loc.m_x + c < m_width && !(r == 0 && c == 0)) {
+				m_gameBoard[m_start->m_loc.m_y + r][m_start->m_loc.m_x + c]->Replace(m_start);
 				m_gameBoard[m_start->m_loc.m_y + r][m_start->m_loc.m_x + c]->m_type = PathFinder::Runner;
 			}
 		}
+	if(m_walls > 0)
+		for (int i = 2; i < startEnd.size(); i++)
+			m_gameBoard[startEnd[i].m_y][startEnd[i].m_x]->m_type = PathFinder::Wall;
+		
+	std::cout << "Finished placing start/end/runners for start" << std::endl;
+	std::cout << "Finished initialization of board stage 2" << std::endl;
 }
 
 std::vector<Vector2> GameBoard::GetNRandomPoints(const int & n)
