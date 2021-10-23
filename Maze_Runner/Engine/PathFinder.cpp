@@ -93,3 +93,15 @@ void PathFinder::PlayTurn()
 {
 	
 }
+
+Vector2::Vector2()
+{
+	m_y = 0;
+	m_x = 0;
+}
+
+Vector2::Vector2(int y, int x)
+{
+	m_y = y;
+	m_x = x;
+}

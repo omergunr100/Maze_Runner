@@ -1,7 +1,10 @@
-#pragma once
-#include "Board.h"
+#include "GameBoard.h"
 
-Board::Board(const int& height, const int& width, const int& scaleHeight, const int& scaleWidth) {
+GameBoard::GameBoard()
+{
+}
+
+GameBoard::GameBoard(const int& height, const int& width, const int& scaleHeight, const int& scaleWidth) {
 	m_height = height;
 	m_width = width;
 	m_scaleHeight = scaleHeight;
@@ -10,7 +13,11 @@ Board::Board(const int& height, const int& width, const int& scaleHeight, const 
 	InitializeBoard();
 }
 
-void Board::Loop()
+GameBoard::~GameBoard()
+{
+}
+
+void GameBoard::Loop()
 {
 	while (!m_end->m_surrounded) {
 		TakeImage();
@@ -39,8 +46,8 @@ void Board::Loop()
 			threads[i].join();
 }
 
-void Board::InitializeBoard() {
-	// Resizing board and placing initial empty spots
+void GameBoard::InitializeBoard() {
+	// Resizing GameBoard and placing initial empty spots
 	m_gameBoard.resize(m_height);		
 	for (int r = 0; r < m_height; r++){
 		m_gameBoard[r].resize(m_width);
@@ -81,7 +88,7 @@ void Board::InitializeBoard() {
 		}
 }
 
-std::vector<Vector2> Board::GetNRandomPoints(const int & n)
+std::vector<Vector2> GameBoard::GetNRandomPoints(const int & n)
 {
 	std::cout << "Started generating points (" << n << ")" << std::endl;
 	std::vector<Vector2> resultVect(n);
@@ -107,7 +114,7 @@ std::vector<Vector2> Board::GetNRandomPoints(const int & n)
 	return resultVect;
 }
 
-BMP Board::TakeImage()
+BMP GameBoard::TakeImage()
 {
 	BMP image = BMP(m_width, m_height);
 

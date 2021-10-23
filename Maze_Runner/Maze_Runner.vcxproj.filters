@@ -40,10 +40,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Board.cpp">
+    <ClCompile Include="Engine\PathFinder.cpp">
       <Filter>Definitions\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\PathFinder.cpp">
+    <ClCompile Include="Engine\GameBoard.cpp">
       <Filter>Definitions\Engine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -60,10 +60,10 @@
     <ClInclude Include="Definitions\Random\Randomness.h">
       <Filter>Definitions\Random</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Board.h">
+    <ClInclude Include="Engine\PathFinder.h">
       <Filter>Definitions\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PathFinder.h">
+    <ClInclude Include="Engine\GameBoard.h">
       <Filter>Definitions\Engine</Filter>
     </ClInclude>
   </ItemGroup>

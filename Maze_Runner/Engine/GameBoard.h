@@ -5,11 +5,11 @@
 
 extern std::vector<std::thread> threads(100);
 
-class Board {
+class GameBoard {
 public:
-	Board() = delete;
-	Board(const int& height, const int& width, const int& scaleHeight, const int& scaleWidth);
-	~Board();
+	GameBoard();
+	GameBoard(const int& height, const int& width, const int& scaleHeight, const int& scaleWidth);
+	~GameBoard();
 
 private:
 	int m_height;

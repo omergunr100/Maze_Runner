@@ -1,11 +1,13 @@
 #pragma once
-#include "Engine/Board.h"
+#include "Engine/PathFinder.h"
+#include "Engine/GameBoard.h"
+
 //#include <chrono>
 
 int main() {
 
 	// New engine
-	Board board = Board(200, 200, 400, 400);
+	GameBoard board = GameBoard(200, 200, 400, 400);
 	
 	
 
