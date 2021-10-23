@@ -13,5 +13,71 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{0d352ae1-3d37-46ce-b900-7886163dcc16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{5a92388e-f261-40fc-b6c9-f21a72e55d5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions">
+      <UniqueIdentifier>{6a808ce4-b7bc-4958-aa27-ca149bcd0323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions\Config">
+      <UniqueIdentifier>{662c6d3a-496f-4924-bd1f-5b768eff7644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions\Image">
+      <UniqueIdentifier>{3c45df71-1f8a-472f-b63b-295d140b3b0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions\Random">
+      <UniqueIdentifier>{6aca61fb-55ff-4e1b-9c81-e52acc71878c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\AntVariant.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Board.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Definitions\Config\Config.cpp">
+      <Filter>Definitions\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Definitions\Image\BMP.cpp">
+      <Filter>Definitions\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Definitions\Image\Color.cpp">
+      <Filter>Definitions\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Definitions\Random\Randomness.cpp">
+      <Filter>Definitions\Random</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\AntVariant.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Board.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Definitions\Config\Config.h">
+      <Filter>Definitions\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Definitions\Image\BMP.h">
+      <Filter>Definitions\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Definitions\Image\Color.h">
+      <Filter>Definitions\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Definitions\Random\Randomness.h">
+      <Filter>Definitions\Random</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="External Files\Config.txt">
+      <Filter>External</Filter>
+    </Text>
   </ItemGroup>
 </Project>

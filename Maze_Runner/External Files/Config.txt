@@ -1,0 +1,21 @@
+General configuration:
+LOG_PATH: Log path=C:/Projects/C++/bit-mould/Logs/
+IMAGE_PATH: Image folder path=C:/Projects/C++/Maze_Runner/images/
+
+Board config:
+BOARD_WIDTH: Board width in pixels to be used for simulation (Integer)=640
+BOARD_HEIGHT: Board height in pixels to be used for simulation (Integer)=270
+BOARD_PLAYERS: Number of initial players to be simulated (Integer)=100
+BOARD_TURNS: Number of turns to be played (Integer, zero/negative values for 'until full' + value)=100
+BOARD_SCALE_WIDTH: Output image width will scale the image accordingly=1920
+BOARD_SCALE_HEIGHT: Output image height will scale the image accordingly=1080
+
+Runner directional weights:
+USE_RELATIVE_DIRECTION: Whether to use direction weights relative to the spread direction (if set to false weights will be based on absolute direction)=true
+Relative direction weights:
+CAME_FROM: The direction it expended from=0
+PROX_1: The directions in a proximity of 1 to the direction it came from=10
+PROX_2: The directions in a proximity of 2 to the direction it came from=15
+PROX_3: The directions in a proximity of 3 to the direction it came from=15
+OPPOSITE_DIR: The direction opposite to the direction it came from=20
+Absolute direction weights:
