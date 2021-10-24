@@ -69,7 +69,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Projects\C++\Libraries\SDL2-2.0.16\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Projects\C++\Libraries\SDL2-2.0.16\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\Projects\C++\Libraries\SDL2-2.0.16\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Projects\C++\Libraries\SDL2-2.0.16\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -90,6 +97,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -120,6 +128,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -130,6 +139,7 @@
     <ClCompile Include="Engine\GameBoard.cpp" />
     <ClCompile Include="Engine\PathFinder.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SDL\SDL_PD.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Definitions\Config\Config.h" />
@@ -138,6 +148,7 @@
     <ClInclude Include="Definitions\Random\Randomness.h" />
     <ClInclude Include="Engine\GameBoard.h" />
     <ClInclude Include="Engine\PathFinder.h" />
+    <ClInclude Include="SDL\SDL_PD.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="External Files\Config.txt" />

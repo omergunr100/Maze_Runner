@@ -6,7 +6,7 @@ GameBoard::GameBoard()
 {
 }
 
-GameBoard::GameBoard(const int& height, const int& width, const int& scaleHeight, const int& scaleWidth, const int& walls) {
+GameBoard::GameBoard(SDL_PD* window, const int& height, const int& width, const int& scaleHeight, const int& scaleWidth, const int& walls) {
 	m_height = height;
 	m_width = width;
 	m_scaleHeight = scaleHeight;
@@ -14,6 +14,7 @@ GameBoard::GameBoard(const int& height, const int& width, const int& scaleHeight
 	m_image = 0;
 	m_turn = 0;
 	m_walls = walls;
+	m_window = window;
 	std::cout << "Initialized board stage 1" << std::endl;
 	InitializeBoard();
 }
@@ -148,6 +149,7 @@ BMP GameBoard::TakeImage()
 	threads.emplace_back(&BMP::ThreadedExport, image, temp, m_scaleWidth, m_scaleHeight);
 	std::cout << "Finished exporting image, resolution: " << image.GetWidth() << ", " << image.GetHeight() << std::endl;
 	m_image++;
+	m_window->DrawBMP(image);
 	return image;
 }
 

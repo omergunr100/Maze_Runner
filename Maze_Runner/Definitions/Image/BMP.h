@@ -13,6 +13,8 @@ public:
 	static const Color& GetColor(BMP& image, int x, int y);
 	static void SetColor(BMP& image, const Color& color, int x, int y);
 
+	Color GetColor(int x, int y);
+
 	static void ThreadedExport(BMP image, std::string path, const int& scale_x, const int& scale_y);
 
 	static void Export(BMP& image, const char* path);

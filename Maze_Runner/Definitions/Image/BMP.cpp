@@ -18,6 +18,8 @@ BMP::~BMP()
 {
 }
 
+
+
 const Color& BMP::GetColor(BMP& image, int x, int y)
 {
 	return image.m_colors[y*image.m_width+x];
@@ -28,6 +30,11 @@ void BMP::SetColor(BMP& image, const Color & color, int x, int y)
 	image.m_colors[y*image.m_width + x].r = color.r;
 	image.m_colors[y*image.m_width + x].g = color.g;
 	image.m_colors[y*image.m_width + x].b = color.b;
+}
+
+Color BMP::GetColor(int x, int y)
+{
+	return m_colors[y*m_width+x];
 }
 
 void BMP::ThreadedExport(BMP image, std::string path, const int& scale_x, const int& scale_y)
@@ -138,9 +145,9 @@ void BMP::Export(BMP& image, const char * path)
 
 	for (int y = 0; y < image.m_height; y++) {
 		for (int x = 0; x < image.m_width; x++) {
-			unsigned char r = static_cast<unsigned char>(GetColor(image, x, y).r * 255.0f);
-			unsigned char g = static_cast<unsigned char>(GetColor(image, x, y).g * 255.0f);
-			unsigned char b = static_cast<unsigned char>(GetColor(image, x, y).b * 255.0f);
+			unsigned char r = static_cast<unsigned char>(GetColor(image, x, y).r);
+			unsigned char g = static_cast<unsigned char>(GetColor(image, x, y).g);
+			unsigned char b = static_cast<unsigned char>(GetColor(image, x, y).b);
 
 			unsigned char color[] = { b, g, r };
 			f.write(reinterpret_cast<char*>(color), 3);
@@ -255,9 +262,9 @@ void BMP::Export(BMP& image, const char * path, int scale_x, int scale_y)
 		for (int x = 0; x < scale_x; x++) {
 			//std::cout << "Row: " << y << ", Col: " << x << "\n";
 			//std::cout << "h_count: " << h_count << ", w_count: " << w_count << "\n";
-			unsigned char r = static_cast<unsigned char>(GetColor(image, (int)floor((float)w_count / x_ratio), (int)floor((float)h_count / y_ratio)).r * 255.0f);
-			unsigned char g = static_cast<unsigned char>(GetColor(image, (int)floor((float)w_count / x_ratio), (int)floor((float)h_count / y_ratio)).g * 255.0f);
-			unsigned char b = static_cast<unsigned char>(GetColor(image, (int)floor((float)w_count / x_ratio), (int)floor((float)h_count / y_ratio)).b * 255.0f);
+			unsigned char r = static_cast<unsigned char>(GetColor(image, (int)floor((float)w_count / x_ratio), (int)floor((float)h_count / y_ratio)).r);
+			unsigned char g = static_cast<unsigned char>(GetColor(image, (int)floor((float)w_count / x_ratio), (int)floor((float)h_count / y_ratio)).g);
+			unsigned char b = static_cast<unsigned char>(GetColor(image, (int)floor((float)w_count / x_ratio), (int)floor((float)h_count / y_ratio)).b);
 			unsigned char color[] = { b, g, r };
 			f.write(reinterpret_cast<char*>(color), 3);
 			w_count++;

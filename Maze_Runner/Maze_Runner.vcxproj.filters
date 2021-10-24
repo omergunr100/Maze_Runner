@@ -23,6 +23,9 @@
     <Filter Include="Definitions\Engine">
       <UniqueIdentifier>{9c896cca-0a8f-4f22-944d-3122b7cfc57c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SDL">
+      <UniqueIdentifier>{839e015f-2391-44ad-a207-5cb7dd7e5de5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Definitions\Config\Config.cpp">
@@ -46,6 +49,9 @@
     <ClCompile Include="Engine\GameBoard.cpp">
       <Filter>Definitions\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="SDL\SDL_PD.cpp">
+      <Filter>SDL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Definitions\Config\Config.h">
@@ -65,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="Engine\GameBoard.h">
       <Filter>Definitions\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL\SDL_PD.h">
+      <Filter>SDL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

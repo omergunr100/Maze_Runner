@@ -2,11 +2,12 @@
 #include "PathFinder.h"
 #include <sstream>
 #include "../Definitions/Image/BMP.h"
+#include "../SDL/SDL_PD.h"
 
 class GameBoard {
 public:
 	GameBoard();
-	GameBoard(const int& height, const int& width, const int& scaleHeight, const int& scaleWidth, const int& walls);
+	GameBoard(SDL_PD* window, const int& height, const int& width, const int& scaleHeight, const int& scaleWidth, const int& walls);
 	~GameBoard();
 
 private:
@@ -20,7 +21,7 @@ private:
 	std::shared_ptr<PathFinder> m_start;
 	std::shared_ptr<PathFinder> m_end;
 	std::vector<std::vector<std::shared_ptr<PathFinder>>> m_gameBoard;
-
+	SDL_PD* m_window;
 
 public:
 	void Loop();
