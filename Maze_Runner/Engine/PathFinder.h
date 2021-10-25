@@ -35,6 +35,13 @@ public:
 	void IsSurrounded();
 	void RecursiveLastCalculation();
 
+private:
+	enum Directions {
+		NW, N, NE,
+		W, C, E,
+		SW, S, SE
+	};
+
 public:
 	Type m_type;
 	Vector2 m_loc;

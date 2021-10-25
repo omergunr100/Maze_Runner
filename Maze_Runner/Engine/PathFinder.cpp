@@ -7,11 +7,12 @@ std::shared_ptr<PathFinder> PathFinder::WallPointer = std::make_shared<PathFinde
 
 Color & PathFinder::GetColor(std::shared_ptr<PathFinder>& exColor)
 {
-	static Color Start = { 77, 137, 99 };
-	static Color End = { 238, 50, 51 };
-	static Color Runner = { 102,167,197 };
-	static Color Trail = { 41, 64, 82 };
-	static Color ChosenTrail = { 204, 255, 0 };
+	static Color Start = { 0, 204, 0 };
+	static Color End = { 255, 0, 0 };
+	static Color Runner = { 153,0,76};
+	static Color Trail = { 0, 0, 204 };
+	static Color ChosenTrail = { 255, 255, 0 };
+	static Color Wall = { 128,128,128 };
 	static Color Else = { 1,1,1 };
 
 	if (exColor->m_type == Type::Start)
@@ -24,6 +25,8 @@ Color & PathFinder::GetColor(std::shared_ptr<PathFinder>& exColor)
 		return Trail;
 	else if (exColor->m_type == Type::ChosenTrail)
 		return ChosenTrail;
+	else if (exColor->m_type == Type::Wall)
+		return Wall;
 	return Else;
 }
 
@@ -47,16 +50,16 @@ PathFinder::PathFinder(const PathFinder& other)
 	m_neighbors = other.m_neighbors;
 	m_surrounded = other.m_surrounded;
 	m_last = other.m_last;
-	m_turnPlayed = 0;
+	m_turnPlayed = other.m_turnPlayed;
 }
 
 void PathFinder::Replace(std::shared_ptr<PathFinder> other)
 {
 	m_type = other->m_type;
 	m_unique = ++unique;
-	m_steps = other->m_steps + 1;
+	m_steps = other->m_steps+1;
 	m_surrounded = other->m_surrounded;
-	m_turnPlayed = other->m_turnPlayed;
+	m_turnPlayed = other->m_turnPlayed+1;
 }
 
 void PathFinder::SetNeighbors(const std::vector<std::shared_ptr<PathFinder>>& neighbors)
@@ -101,13 +104,69 @@ void PathFinder::PlayTurn(const int& turn)
 		return;
 	m_turnPlayed = turn;
 	if (m_type == Type::Runner) {
+		// New code
+		int full = 0;
+		// Smart re-checks
+		for (int i = 0; i < m_neighbors.size(); i++){
+			if (m_neighbors[i]->m_type != Empty)
+				full++;
+			if (m_neighbors[i]->m_type == Runner && m_neighbors[i]->m_steps + 1 < m_steps) {
+				Replace(m_neighbors[i]);
+				full = 0;
+			}
+			else if (m_neighbors[i]->m_type == Trail && m_neighbors[i]->m_steps + 1 < m_steps) {
+				Replace(m_neighbors[i]);
+				m_type == Runner;
+				full = 0;
+			}
+		}
+		// Direction checks
+		/*
+		if (m_neighbors[NW]->m_type == Empty){
+			if(m_neighbors[N]->m_type != Runner && m_neighbors[W]->m_type != Runner)
+				m_neighbors[NW]->Replace(std::make_shared<PathFinder>(*this));
+		}
+		if (m_neighbors[N]->m_type == Empty) {
+			//if(m_neighbors[E]->m_type != Runner && m_neighbors[W]->m_type != Runner)
+				m_neighbors[N]->Replace(std::make_shared<PathFinder>(*this));
+		}
+		if (m_neighbors[NE]->m_type == Empty) {
+			if(m_neighbors[N]->m_type != Runner && m_neighbors[E]->m_type != Runner)
+				m_neighbors[NE]->Replace(std::make_shared<PathFinder>(*this));
+		}
+		if (m_neighbors[W]->m_type == Empty) {
+			//if(m_neighbors[NW]->m_type != Runner && m_neighbors[SW]->m_type != Runner)
+				m_neighbors[W]->Replace(std::make_shared<PathFinder>(*this));
+		}
+		if (m_neighbors[E]->m_type == Empty) {
+			//if(m_neighbors[N]->m_type != Runner && m_neighbors[S]->m_type != Runner)
+				m_neighbors[E]->Replace(std::make_shared<PathFinder>(*this));
+		}
+		if (m_neighbors[SW]->m_type == Empty) {
+			if(m_neighbors[S]->m_type != Runner && m_neighbors[W]->m_type != Runner)
+				m_neighbors[SW]->Replace(std::make_shared<PathFinder>(*this));
+		}
+		if (m_neighbors[S]->m_type == Empty) {
+			//if(m_neighbors[E]->m_type != Runner && m_neighbors[W]->m_type != Runner)
+				m_neighbors[S]->Replace(std::make_shared<PathFinder>(*this));
+		}
+		if (m_neighbors[SE]->m_type == Empty) {
+			if(m_neighbors[S]->m_type != Runner && m_neighbors[E]->m_type != Runner)
+				m_neighbors[SE]->Replace(std::make_shared<PathFinder>(*this));
+		}
+		*/
+		// Old code
+		
 		for (int i = 0; i < m_neighbors.size(); i++) {
 			if (m_neighbors[i]->m_unique == m_unique)
 				continue;
-			if (m_neighbors[i]->m_type == Type::Empty)
+			if (m_neighbors[i]->m_type == Type::Empty){
 				m_neighbors[i]->Replace(std::make_shared<PathFinder>(*this));
+				break;
+			}
 		}
-		m_type = Type::Trail;
+		if(full == 9)
+			m_type = Type::Trail;
 	}
 	else if (m_type == Type::Trail) {
 		m_steps = CalculateSteps();

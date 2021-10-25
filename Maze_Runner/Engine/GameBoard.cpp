@@ -6,13 +6,13 @@ GameBoard::GameBoard()
 {
 }
 
-GameBoard::GameBoard(SDL_PD* window, const int& height, const int& width, const int& scaleHeight, const int& scaleWidth, const int& walls) {
+GameBoard::GameBoard(std::shared_ptr<SDL_PD> window, const int& height, const int& width, const int& scaleHeight, const int& scaleWidth, const int& walls) {
 	m_height = height;
 	m_width = width;
 	m_scaleHeight = scaleHeight;
 	m_scaleWidth = scaleWidth;
 	m_image = 0;
-	m_turn = 0;
+	m_turn = 1;
 	m_walls = walls;
 	m_window = window;
 	std::cout << "Initialized board stage 1" << std::endl;
@@ -25,17 +25,25 @@ GameBoard::~GameBoard()
 
 void GameBoard::Loop()
 {
+	TakeImage();
 	while (!m_end->m_surrounded) {
-		TakeImage();
 		for(int r = 0; r < m_height; r++)
 			for (int c = 0; c < m_width; c++) {
-				if (m_gameBoard[r][c]->m_type == PathFinder::Runner)
+				if (m_gameBoard[r][c]->m_type == PathFinder::Runner){
 					m_gameBoard[r][c]->PlayTurn(m_turn);
+				}
 			}
 		m_end->IsSurrounded();
 		m_turn++;
 	}
 	
+	// Get rid of all leftover runners
+	for (int r = 0; r < m_height; r++)
+		for (int c = 0; c < m_width; c++) {
+			if (m_gameBoard[r][c]->m_type == PathFinder::Runner)
+				m_gameBoard[r][c]->m_type = PathFinder::Trail;
+		}
+
 	m_start->RecursiveLastCalculation();
 	std::shared_ptr<PathFinder> trail = m_end->FindShortestRoute();
 	while (!m_start->m_surrounded) {
@@ -123,7 +131,7 @@ std::vector<Vector2> GameBoard::GetNRandomPoints(const int & n)
 		}
 		if (!replicant) {
 			std::cout << "Point " << i << ": [" << x << ", " << y << "]" << std::endl;
-			resultVect[i] = Vector2(x, y);
+			resultVect[i] = Vector2(y, x);
 		}
 		else {
 			i--;

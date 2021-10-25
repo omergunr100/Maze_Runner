@@ -8,9 +8,9 @@
 int main(int argc, char* argv[]) {
 
 	// New engine
-	SDL_PD* window = new SDL_PD(1000, 1000);
+	std::shared_ptr<SDL_PD> window = std::make_shared<SDL_PD>(1080, 1920);
 	window->Init();
-	GameBoard board = GameBoard(window, 100, 100, 1000, 1000, 1500);
+	GameBoard board = GameBoard(window, 180, 160, 720, 1280, 4000);
 	board.Loop();
 
 	// Old engine
@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 			threads[i].join();
 	}
 	*/
+	std::cin;
 	window->Cleanup();
-	delete window;
 	return 0;
 }

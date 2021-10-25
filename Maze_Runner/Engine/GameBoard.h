@@ -7,7 +7,7 @@
 class GameBoard {
 public:
 	GameBoard();
-	GameBoard(SDL_PD* window, const int& height, const int& width, const int& scaleHeight, const int& scaleWidth, const int& walls);
+	GameBoard(std::shared_ptr<SDL_PD> window, const int& height, const int& width, const int& scaleHeight, const int& scaleWidth, const int& walls);
 	~GameBoard();
 
 private:
@@ -21,7 +21,7 @@ private:
 	std::shared_ptr<PathFinder> m_start;
 	std::shared_ptr<PathFinder> m_end;
 	std::vector<std::vector<std::shared_ptr<PathFinder>>> m_gameBoard;
-	SDL_PD* m_window;
+	std::shared_ptr<SDL_PD> m_window;
 
 public:
 	void Loop();
