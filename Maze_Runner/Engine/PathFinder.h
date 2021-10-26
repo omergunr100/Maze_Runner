@@ -13,6 +13,8 @@ struct Vector2 {
 	int m_y, m_x;
 	Vector2();
 	Vector2(int y, int x);
+
+	bool operator!=(const Vector2& other);
 };
 
 class PathFinder {
@@ -36,6 +38,7 @@ public:
 	void PlayTurn(const int& turn);
 	void IsSurrounded();
 	void RecursiveLastCalculation();
+	std::shared_ptr<PathFinder> GetOffsetNeighbor(int y, int x);
 
 private:
 	enum Directions {
@@ -48,6 +51,7 @@ public:
 	Type m_type;
 	Vector2 m_loc;
 	bool m_surrounded;
+	int m_square;
 private:
 	int m_unique;
 	int m_steps;

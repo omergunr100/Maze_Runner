@@ -26,6 +26,9 @@
     <Filter Include="SDL">
       <UniqueIdentifier>{839e015f-2391-44ad-a207-5cb7dd7e5de5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Definitions\Squares">
+      <UniqueIdentifier>{70255ef4-257a-489a-b45c-03ce9c2a25f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Definitions\Config\Config.cpp">
@@ -52,6 +55,9 @@
     <ClCompile Include="SDL\SDL_PD.cpp">
       <Filter>SDL</Filter>
     </ClCompile>
+    <ClCompile Include="Squares\Square.cpp">
+      <Filter>Definitions\Squares</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Definitions\Config\Config.h">
@@ -74,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="SDL\SDL_PD.h">
       <Filter>SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="Squares\Square.h">
+      <Filter>Definitions\Squares</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

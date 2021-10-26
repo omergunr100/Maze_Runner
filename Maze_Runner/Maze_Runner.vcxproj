@@ -140,6 +140,7 @@
     <ClCompile Include="Engine\PathFinder.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SDL\SDL_PD.cpp" />
+    <ClCompile Include="Squares\Square.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Definitions\Config\Config.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Engine\GameBoard.h" />
     <ClInclude Include="Engine\PathFinder.h" />
     <ClInclude Include="SDL\SDL_PD.h" />
+    <ClInclude Include="Squares\Square.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="External Files\Config.txt" />

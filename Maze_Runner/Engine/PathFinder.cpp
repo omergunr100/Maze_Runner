@@ -39,6 +39,7 @@ PathFinder::PathFinder(Type type, const Vector2& loc)
 	m_surrounded = false;
 	m_last = false;
 	m_turnPlayed = 0;
+	m_square = -1;
 }
 
 PathFinder::PathFinder(const PathFinder& other)
@@ -51,6 +52,7 @@ PathFinder::PathFinder(const PathFinder& other)
 	m_surrounded = other.m_surrounded;
 	m_last = other.m_last;
 	m_turnPlayed = other.m_turnPlayed;
+	m_square = other.m_square;
 }
 
 void PathFinder::Replace(std::shared_ptr<PathFinder> other)
@@ -60,6 +62,7 @@ void PathFinder::Replace(std::shared_ptr<PathFinder> other)
 	m_steps = other->m_steps+1;
 	m_surrounded = other->m_surrounded;
 	m_turnPlayed = other->m_turnPlayed+1;
+	m_square = other->m_square;
 }
 
 void PathFinder::SetNeighbors(const std::vector<std::shared_ptr<PathFinder>>& neighbors)
@@ -168,6 +171,40 @@ void PathFinder::RecursiveLastCalculation()
 	m_countCalc++;
 }
 
+std::shared_ptr<PathFinder> PathFinder::GetOffsetNeighbor(int y, int x)
+{
+	std::shared_ptr<PathFinder> ret = m_neighbors[C];
+	bool negX = false;
+	bool negY = false;
+	if (y < 0) {
+		negY = true;
+		y = -y;
+	}
+	if (x < 0) {
+		negX = true;
+		x = -x;
+	}
+		
+	for (int dy = 0; dy < y; dy++) {
+		if (negY) {
+			ret = m_neighbors[N];
+		}
+		else {
+			ret = m_neighbors[S];
+		}
+
+	}
+	for (int dx = 0; dx < x; dx++) {
+		if (negX) {
+			ret = m_neighbors[W];
+		}
+		else {
+			ret = ret->m_neighbors[E];
+		}
+	}
+	return ret;
+}
+
 Vector2::Vector2()
 {
 	m_y = 0;
@@ -178,4 +215,11 @@ Vector2::Vector2(int y, int x)
 {
 	m_y = y;
 	m_x = x;
+}
+
+bool Vector2::operator!=(const Vector2 & other)
+{
+	if (m_x != other.m_x || m_y != other.m_y)
+		return true;
+	return false;
 }
