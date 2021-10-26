@@ -3,8 +3,6 @@
 #include "Engine/GameBoard.h"
 #include <stdio.h>
 
-//#include <chrono>
-
 int main(int argc, char* argv[]) {
 
 	// New engine
@@ -13,17 +11,7 @@ int main(int argc, char* argv[]) {
 	GameBoard board = GameBoard(window, 180, 160, 720, 1280, 4000);
 	board.Loop();
 
-	// Old engine
-	/*
-	Board gameBoard = Board(200,200,0,800,800);
-	gameBoard.GameLoop();
-
-	for (int i = 0; i < threads.size(); i++) {
-		if (threads[i].joinable())
-			threads[i].join();
-	}
-	*/
-	std::cin;
+	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 	window->Cleanup();
 	return 0;
 }

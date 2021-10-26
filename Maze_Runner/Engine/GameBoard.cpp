@@ -43,11 +43,10 @@ void GameBoard::Loop()
 			if (m_gameBoard[r][c]->m_type == PathFinder::Runner)
 				m_gameBoard[r][c]->m_type = PathFinder::Trail;
 		}
-
+	TakeImage();
 	m_start->RecursiveLastCalculation();
 	std::shared_ptr<PathFinder> trail = m_end->FindShortestRoute();
 	while (!m_start->m_surrounded) {
-		TakeImage();
 		if (trail->m_type == PathFinder::Start)
 			m_start->m_surrounded = true;
 		if (!m_start->m_surrounded) {

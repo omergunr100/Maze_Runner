@@ -120,42 +120,6 @@ void PathFinder::PlayTurn(const int& turn)
 				full = 0;
 			}
 		}
-		// Direction checks
-		/*
-		if (m_neighbors[NW]->m_type == Empty){
-			if(m_neighbors[N]->m_type != Runner && m_neighbors[W]->m_type != Runner)
-				m_neighbors[NW]->Replace(std::make_shared<PathFinder>(*this));
-		}
-		if (m_neighbors[N]->m_type == Empty) {
-			//if(m_neighbors[E]->m_type != Runner && m_neighbors[W]->m_type != Runner)
-				m_neighbors[N]->Replace(std::make_shared<PathFinder>(*this));
-		}
-		if (m_neighbors[NE]->m_type == Empty) {
-			if(m_neighbors[N]->m_type != Runner && m_neighbors[E]->m_type != Runner)
-				m_neighbors[NE]->Replace(std::make_shared<PathFinder>(*this));
-		}
-		if (m_neighbors[W]->m_type == Empty) {
-			//if(m_neighbors[NW]->m_type != Runner && m_neighbors[SW]->m_type != Runner)
-				m_neighbors[W]->Replace(std::make_shared<PathFinder>(*this));
-		}
-		if (m_neighbors[E]->m_type == Empty) {
-			//if(m_neighbors[N]->m_type != Runner && m_neighbors[S]->m_type != Runner)
-				m_neighbors[E]->Replace(std::make_shared<PathFinder>(*this));
-		}
-		if (m_neighbors[SW]->m_type == Empty) {
-			if(m_neighbors[S]->m_type != Runner && m_neighbors[W]->m_type != Runner)
-				m_neighbors[SW]->Replace(std::make_shared<PathFinder>(*this));
-		}
-		if (m_neighbors[S]->m_type == Empty) {
-			//if(m_neighbors[E]->m_type != Runner && m_neighbors[W]->m_type != Runner)
-				m_neighbors[S]->Replace(std::make_shared<PathFinder>(*this));
-		}
-		if (m_neighbors[SE]->m_type == Empty) {
-			if(m_neighbors[S]->m_type != Runner && m_neighbors[E]->m_type != Runner)
-				m_neighbors[SE]->Replace(std::make_shared<PathFinder>(*this));
-		}
-		*/
-		// Old code
 		
 		for (int i = 0; i < m_neighbors.size(); i++) {
 			if (m_neighbors[i]->m_unique == m_unique)
@@ -184,6 +148,10 @@ void PathFinder::IsSurrounded()
 
 void PathFinder::RecursiveLastCalculation()
 {
+	if (m_type == Type::Start) {
+		m_steps = 0;
+		m_last = true;
+	}
 	if (!m_last) {
 		CalculateSteps();
 	}
@@ -192,10 +160,12 @@ void PathFinder::RecursiveLastCalculation()
 	}
 	for (int i = 0; i < m_neighbors.size(); i++) {
 		if (m_neighbors[i]->m_type == Trail && m_neighbors[i]->m_unique != m_unique) {
-			m_neighbors[i]->m_last = true;
 			m_neighbors[i]->RecursiveLastCalculation();
+			if(m_countCalc >= TIMES_CALC)
+				m_neighbors[i]->m_last = true;
 		}
 	}
+	m_countCalc++;
 }
 
 Vector2::Vector2()

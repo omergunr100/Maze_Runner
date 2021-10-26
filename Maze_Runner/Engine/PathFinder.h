@@ -7,6 +7,8 @@
 #include "../Definitions/Image/Color.h"
 #include "../Definitions/Config/Config.h"
 
+#define TIMES_CALC 30
+
 struct Vector2 {
 	int m_y, m_x;
 	Vector2();
@@ -52,4 +54,5 @@ private:
 	std::vector<std::shared_ptr<PathFinder>> m_neighbors;
 	bool m_last;
 	int m_turnPlayed;
+	int m_countCalc;
 };
