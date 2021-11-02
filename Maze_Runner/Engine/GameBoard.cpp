@@ -44,7 +44,8 @@ void GameBoard::Loop()
 				m_gameBoard[r][c]->m_type = PathFinder::Trail;
 		}
 	TakeImage();
-	m_start->RecursiveLastCalculation();
+	RecursiveLastCalculation(m_start->m_loc, TIMES_CALC);
+	//m_start->RecursiveLastCalculation();
 	std::shared_ptr<PathFinder> trail = m_end->FindShortestRoute();
 	while (!m_start->m_surrounded) {
 		if (trail->m_type == PathFinder::Start)
@@ -112,6 +113,36 @@ void GameBoard::InitializeBoard() {
 		
 	std::cout << "Finished placing start/end/runners for start" << std::endl;
 	std::cout << "Finished initialization of board stage 2" << std::endl;
+}
+
+void GameBoard::RecursiveLastCalculation(const Vector2& initial, const int& times)
+{
+	int heightOffset = 0, widthOffset = 0;
+	bool end = false;
+	while (!end) {
+		if ((initial.m_y + heightOffset < m_height) || (initial.m_y - heightOffset >= m_height)) {
+			if ((initial.m_x + widthOffset < m_width) || (initial.m_x - widthOffset >= m_width)) {
+				if (initial.m_y + heightOffset < m_height) {
+					if (initial.m_x + widthOffset < m_width)
+						m_gameBoard[initial.m_y + heightOffset][initial.m_x + widthOffset]->CalculateSteps();
+					if(initial.m_x - widthOffset >= m_width)
+						m_gameBoard[initial.m_y + heightOffset][initial.m_x - widthOffset]->CalculateSteps();
+				}
+				if (initial.m_y - heightOffset >= m_height) {
+					if (initial.m_x + widthOffset < m_width)
+						m_gameBoard[initial.m_y - heightOffset][initial.m_x + widthOffset]->CalculateSteps();
+					if (initial.m_x - widthOffset >= m_width)
+						m_gameBoard[initial.m_y - heightOffset][initial.m_x - widthOffset]->CalculateSteps();
+				}
+				
+			}
+			widthOffset++;
+			heightOffset++;
+		}
+		else {
+			end = true;
+		}
+	}
 }
 
 std::vector<Vector2> GameBoard::GetNRandomPoints(const int & n)

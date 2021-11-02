@@ -7,7 +7,7 @@
 #include "../Definitions/Image/Color.h"
 #include "../Definitions/Config/Config.h"
 
-#define TIMES_CALC 30
+#define TIMES_CALC 15
 
 struct Vector2 {
 	int m_y, m_x;

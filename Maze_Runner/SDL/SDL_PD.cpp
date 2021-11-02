@@ -11,19 +11,19 @@ int SDL_PD::Init()
 	window = NULL;
 	renderer = NULL;
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		printf("SDL init, error: %d", SDL_GetError());
 		return -1;
 	}
 
-	window = SDL_CreateWindow("Maze Runner", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("Maze Runner", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN);
 
 	if (window == NULL) {
 		printf("SDL window, error: %d", SDL_GetError());
 		return -2;
 	}
 
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	renderer = SDL_CreateRenderer(window, -1, 0);
 	return 0;
 }
 

@@ -28,6 +28,7 @@ public:
 
 private:
 	void InitializeBoard();
+	void RecursiveLastCalculation(const Vector2& initial, const int& times);
 	std::vector<Vector2> GetNRandomPoints(const int& n);
 	BMP TakeImage();
 };
