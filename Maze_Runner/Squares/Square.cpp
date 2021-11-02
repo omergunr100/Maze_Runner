@@ -9,16 +9,18 @@ Square::Square(std::shared_ptr<PathFinder> TopLeft, const int & height, const in
 	std::shared_ptr<PathFinder> current;
 	m_unique = ++unique;
 	m_TopLeft = TopLeft->m_loc;
+	m_container.resize(height);
 	for (int y = 0; y < height; y++) {
+		m_container[y].reserve(width);
 		for (int x = 0; x < width; x++) {
 			current = TopLeft->GetOffsetNeighbor(y, x);
 			current->m_square = m_unique;
-			m_container.emplace_back(current);
+			m_container[y].emplace_back(current);
 		}
 	}
 }
 
-Square::Square(std::vector<std::shared_ptr<PathFinder>> container, const int & height, const int & width)
+Square::Square(std::vector<std::vector<std::shared_ptr<PathFinder>>> container, const int & height, const int & width)
 {
 	m_unique = ++unique;
 	m_container = container;
@@ -27,13 +29,29 @@ Square::Square(std::vector<std::shared_ptr<PathFinder>> container, const int & h
 			GetIndex(Vector2(y, x))->m_square = m_unique;
 		}
 	}
-	m_TopLeft = container[0]->m_loc;
+	m_TopLeft = container[0][0]->m_loc;
 	m_height = height;
 	m_width = width;
 }
 
 Square::~Square()
 {
+}
+
+Square::Square(const int & height, const int & width)
+{
+	m_height = height;
+	m_width = width;
+}
+
+void Square::SetStart(const Vector2 & start)
+{
+	GetIndex(start)->m_type = PathFinder::Start;
+}
+
+void Square::SetEnd(const Vector2 & end)
+{
+	GetIndex(end)->m_type = PathFinder::End;
 }
 
 std::vector<std::shared_ptr<PathFinder>> Square::FindRoute(const Vector2 & start, const Vector2 & end)
@@ -50,7 +68,7 @@ std::vector<std::shared_ptr<PathFinder>> Square::FindRoute(const Vector2 & start
 
 std::shared_ptr<PathFinder> Square::GetIndex(const Vector2 & loc)
 {
-	return m_container[loc.m_y* m_width + loc.m_x];
+	return m_container[loc.m_y][loc.m_x];
 }
 
 void Square::InitalizeRunners(const Vector2 & start, const Vector2 end)
